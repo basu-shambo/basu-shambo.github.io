@@ -61,20 +61,31 @@ keypad.addEventListener('mousedown',(e)=>{
 
 keypad.addEventListener('mouseup',(e)=>{
     e.stopPropagation();
-        const time = Date.now()-start;
-        if(time <= shortClick ){
+        const time = Date.now()-start; // to check if the click is a short click or a long click
+        if(time <= shortClick ){ // checking if the click is a short one
             clicks++;
-            arr = letters[parseInt(e.target.id)]['secondary']
-            if(clicks&& last == e.target.id){
-                output.textContent = arr.length?
-                                        output.textContent.slice(0,-1)+arr[clicks%arr.length]:
-                                        output.textContent+letters[parseInt(e.target.id)]['primary']
-                
+            arr = letters[parseInt(e.target.id)]['secondary'] //since the click is short getting the secondary character array
+            //checking if the same button is clicked as before
+            if(last==e.target.id){ 
+                //checking if the button is clicked before
+                if(clicks){
+                    //setting the output and checking if the button even has a secondarry array
+                    output.textContent = arr.length?
+                                            output.textContent.slice(0,-1)+arr[clicks%arr.length]:
+                                            output.textContent+letters[parseInt(e.target.id)]['primary']
+                    
+                }
+                else{
+                    output.textContent = arr.length?
+                                            output.textContent+arr[clicks%arr.length]:
+                                            output.textContent+letters[parseInt(e.target.id)]['primary']
+                }
             }
             else{
+                clicks=0;
                 output.textContent = arr.length?
-                                        output.textContent+arr[clicks%arr.length]:
-                                        output.textContent+letters[parseInt(e.target.id)]['primary']
+                                            output.textContent+arr[clicks%arr.length]:
+                                            output.textContent+letters[parseInt(e.target.id)]['primary']
                 
             }
             start = Date.now();
@@ -82,9 +93,11 @@ keypad.addEventListener('mouseup',(e)=>{
         
         }
         else if(time> shortClick){
+            
             output.textContent = output.textContent + letters[parseInt(e.target.id)]['primary']
             start = 0;
             clicks = -1;
+            
 
         }
         
