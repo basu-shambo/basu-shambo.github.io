@@ -60,9 +60,19 @@ close.addEventListener('click',()=>{
 })
 
 const updateStats = () => {
-    const pre = document.createElement('pre');
-    pre.innerText = localStorage.getItem('data');
-    graph.innerHTML = '';
-    graph.appendChild(pre);
+    const stats = JSON.parse(localStorage.getItem('data'));
+    var data = [{
+        x:[],
+        y:[],
+        type:'bar',
+        text:[]
+    }];
+    for(var key in stats){
+        data[0].x.push(key);
+        data[0].y.push(stats[key]);
+        data[0].text.push(stats[key].toString())
+        // console.log(data[0].x)
+    }
+    Plotly.newPlot('graph', data);
 
 }
